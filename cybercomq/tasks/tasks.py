@@ -34,7 +34,7 @@ def add_usingR(x,y):
 
     
 @task()
-def runRscript_file(args,kwargs):
+def runRscript_file(args):
     """
         Generic task to batch submit to R
         args: run parameters saved as a text file in json format
@@ -44,18 +44,8 @@ def runRscript_file(args,kwargs):
     task_id = str(runRscript_file.request.id)
     resultDir = setup_result_directory(task_id)
     #host_data_resultDir = "{0}/static/campgruber_tasks/{1}".format(host_data_dir,task_id)
-    with open(resultDir + '/args.json', "w") as f:
+    with open(resultDir + '/input/args.json', "w") as f:
         f.write(args)
-    runfile = kwargs[0] #first entry is always the R script to run
-    jv_kwargs = kwargs.values()
-    kwargs_list = " ".join(jv_kwargs)
-    #Run R Script
-    docker_opts = "-v /opt/someapp/data/static:/script:z -w /script "
-    docker_cmd ="Rscript /script/simple.R"
-    try:
-        result = docker_task(docker_name="rocker/r-base",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
-    except:
-        pass
     result_url ="http://{0}/someapp_tasks/{1}".format("cybercom-dev.tigr.cf",task_id)
     return result_url	
 	
