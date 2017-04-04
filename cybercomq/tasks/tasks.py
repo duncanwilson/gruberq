@@ -45,7 +45,7 @@ def runRscript_file(args,kwargs):
     resultDir = setup_result_directory(task_id)
     #host_data_resultDir = "{0}/static/campgruber_tasks/{1}".format(host_data_dir,task_id)
     with open(resultDir + '/args.json', "w") as f:
-    f.write(args)
+        f.write(args)
     runfile = kwargs[0] #first entry is always the R script to run
     jv_kwargs = kwargs.values()
     kwargs_list = " ".join(jv_kwargs)
