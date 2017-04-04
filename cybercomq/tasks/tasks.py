@@ -3,6 +3,7 @@ from dockertask import docker_task
 from subprocess import call,STDOUT
 import requests
 import os
+import json
 
 #Default base directory 
 basedir="/data/static/"
@@ -43,9 +44,9 @@ def runRscript_file(args):
     """
     task_id = str(runRscript_file.request.id)
     resultDir = setup_result_directory(task_id)
-    #host_data_resultDir = "{0}/static/campgruber_tasks/{1}".format(host_data_dir,task_id)
+    #host_data_resultDir = "{0}/static/someapp_tasks/{1}".format(host_data_dir,task_id)
     with open(resultDir + '/input/args.json', "w") as f:
-        f.write(args)
+        json.dump(args,f)
     result_url ="http://{0}/someapp_tasks/{1}".format("cybercom-dev.tigr.cf",task_id)
     return result_url	
 	
