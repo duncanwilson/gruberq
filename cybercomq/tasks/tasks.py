@@ -3,7 +3,6 @@ from dockertask import docker_task
 from subprocess import call,STDOUT
 import requests
 import os
-import json
 
 #Default base directory 
 basedir="/data/static/"
