@@ -47,6 +47,13 @@ def runRscript_file(args):
     #host_data_resultDir = "{0}/static/someapp_tasks/{1}".format(host_data_dir,task_id)
     with open(resultDir + '/input/args.json', "w") as f:
         jsonx.dump(args,f)
+    #Run R Script
+    docker_opts = "--rm -v /opt/someapp/data/static:/script:z -w /script "
+    docker_cmd ="Rscript /script/simple.R"
+    try:
+        result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+    except:
+        pass
     result_url ="http://{0}/someapp_tasks/{1}".format("cybercom-dev.tigr.cf",task_id)
     return result_url	
 	
