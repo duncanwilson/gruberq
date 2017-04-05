@@ -50,10 +50,7 @@ def runRscript_file(args):
     #Run R Script
     docker_opts = "--rm -v /opt/someapp/data/static:/script:z -w /script "
     docker_cmd ="Rscript /script/simple.R"
-    try:
-        result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
-    except:
-        pass
+    result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     result_url ="http://{0}/someapp_tasks/{1}".format("cybercom-dev.tigr.cf",task_id)
     return result_url	
 	
