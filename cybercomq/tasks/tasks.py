@@ -39,7 +39,7 @@ def add_usingR(x,y):
         pass
     add_result = []
     # R returns a single row csv file with x,y,and x+y as columns
-    with open(basedir + 'R_add_out.csv', 'r') as f:
+    with open('/data/static/R_add_out.csv', 'r') as f:
         reader = csv.reader(f)
         for row in reader:
             add_result.append(row)
