@@ -34,7 +34,7 @@ def add_usingR(x,y):
     docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
     docker_cmd = " Rscript /script/add_usingR.R {0} {1} ".format(x,y)
     try:
-        r_return = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+        result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     except:
         pass
     add_result = []
@@ -45,7 +45,7 @@ def add_usingR(x,y):
             add_result.append(row)
     f.close()
     #os.remove(basedir + 'R_add_out.csv')
-    return add_result
+    return result
     
     
 @task()
