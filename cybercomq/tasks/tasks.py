@@ -20,7 +20,7 @@ def add(x, y):
     return result
 
 @task()
-def add_usingR(x,y):
+def add_usingR():
     """
         Generic task testing batch submit to R
             Adds two real numbers together
@@ -31,7 +31,7 @@ def add_usingR(x,y):
         file: "R_add_out.log" is the R console log
     """
     docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
-    docker_cmd ="Rscript /script/add_usingR.R {0} {1}".format(x,y)
+    docker_cmd ="Rscript /script/add_usingR.R"
     try:
         r_return = docker_task(docker_name="rocker/r-base",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     except:
@@ -43,10 +43,8 @@ def add_usingR(x,y):
         for row in reader:
             add_result.append(row)
     f.close()
-    os.remove(basedir + 'R_add_out.csv')
-    sum = add_result[2]
-    result = "Congratulations! The sum of {0} + {1} = {2}".format(x,y,sum)
-    return result
+    #os.remove(basedir + 'R_add_out.csv')
+    return add_result
     
     
 @task()
