@@ -31,20 +31,24 @@ def add_usingR(x,y):
         file: "R_add_out.log" is the R console log
     """
     task_user = str(runRscript_file.request.user)
-    docker_opts = ' --rm -v /opt/cybercom_main/data/static:/script:z -w /script '	
+    docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
     docker_cmd ="Rscript /script/add_usingR.R {0} {1}".format(x,y)
-    r_return = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+    try:
+        r_return = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+    except:
+        pass
     add_result = []
     # R returns a single row csv file with x,y,and x+y as columns
-    with open('/opt/cybercom_main/data/static/R_add_out.csv', "rb") as f:
+    with open('/opt/someapp/data/static/R_add_out.csv', "rb") as f:
         reader = csv.reader(f)
         for row in reader:
             add_result(float(row))
     f.close()
-    os.remove('/opt/cybercom_main/data/static/R_add_out.csv')
+    os.remove('/opt/someapp/data/static/R_add_out.csv')
     sum = add_result[2]
-    result = "The sum of {0} + {1} = {2}, usename = {3}".format(x,y,sum,task_user)
+    result = "Congratulations {0}! The sum of {1} + {2} = {3}".format(task_user,x,y,sum)
     return result
+    
     
 @task()
 def runRscript_file(args):
