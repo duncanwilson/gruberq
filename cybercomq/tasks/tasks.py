@@ -38,10 +38,10 @@ def add_usingR(x,y):
         pass
     add_result = []
     # R returns a single row csv file with x,y,and x+y as columns
-    with open(basedir + 'R_add_out.csv', 'rb') as f:
+    with open(basedir + 'R_add_out.csv', 'r') as f:
         reader = csv.reader(f)
         for row in reader:
-            add_result.append(float(row))
+            add_result.append(row)
     f.close()
     os.remove('/opt/someapp/data/static/R_add_out.csv')
     sum = add_result[2]
