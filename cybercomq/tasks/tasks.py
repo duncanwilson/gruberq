@@ -3,11 +3,11 @@ from dockertask import docker_task
 from subprocess import call,STDOUT
 import requests
 import os
+import csv
 import json as jsonx
 
 #Default base directory 
 basedir="/data/static/"
-
 
 #Example task
 @task()
@@ -21,18 +21,30 @@ def add(x, y):
 
 @task()
 def add_usingR(x,y):
-    task_id = str(add_usingR.request.id)
-    resultDir = setup_result_directory(task_id)
-    docker_opts = '-v /opt/someapp/data/static:/script:z -w /script '	
+    """
+        Generic task testing batch submit to R
+            Adds two real numbers together
+            Calls R from the docker container, inputs the args, writes result to file
+            Return reads output file, returns sum
+            Tests running R, inputting command args and writing output
+        args: x,y are two real numbers
+        file: "R_add_out.log" is the R console log
+    """
+    task_user = str(runRscript_file.request.user)
+    docker_opts = ' --rm -v /opt/cybercom_main/data/static:/script:z -w /script '	
     docker_cmd ="Rscript /script/add_usingR.R {0} {1}".format(x,y)
-    print docker_cmd, docker_opts
-    try:
-        result = docker_task(docker_name="rocker/r-base",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
-    except:
-        pass 
-    result_url ="http://{0}/someapp_tasks/{1}".format("cybercom-dev.tigr.cf",task_id)
-    return result_url
-
+    r_return = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+    add_result = []
+    # R returns a single row csv file with x,y,and x+y as columns
+    with open('/opt/cybercom_main/data/static/R_add_out.csv', "rb") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            add_result(float(row))
+    f.close()
+    os.remove('/opt/cybercom_main/data/static/R_add_out.csv')
+    sum = add_result[2]
+    result = "The sum of {0} + {1} = {2}, usename = {3}".format(x,y,sum,task_user)
+    return result
     
 @task()
 def runRscript_file(args):
@@ -40,7 +52,8 @@ def runRscript_file(args):
         Generic task to batch submit to R
         args: run parameters saved as a text file in json format
               The run parameters will be read into R as part of the R script
-        kwargs: keyword args are passed to R at the command line
+              Users will need to know structure of the parms file
+        kwargs: keyword arg is the R script filename
     """
     task_id = str(runRscript_file.request.id)
     resultDir = setup_result_directory(task_id)
@@ -48,8 +61,8 @@ def runRscript_file(args):
     with open(resultDir + '/input/args.json', "w") as f:
         jsonx.dump(args,f)
     #Run R Script
-    docker_opts = "--rm -v /opt/someapp/data/static:/script:z -w /script "
-    docker_cmd ="Rscript /script/simple.R"
+    docker_opts = " --rm -v /opt/someapp/data/static:/script:z -w /script "
+    docker_cmd =" Rscript /script/simple.R "
     try:
         result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     except:
