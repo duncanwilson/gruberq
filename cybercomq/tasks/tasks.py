@@ -33,7 +33,7 @@ def add_usingR(x,y):
     docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
     docker_cmd ="Rscript /script/add_usingR.R {0} {1}".format(x,y)
     try:
-        r_return = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+        r_return = docker_task(docker_name="rocker/r-base",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     except:
         pass
     add_result = []
