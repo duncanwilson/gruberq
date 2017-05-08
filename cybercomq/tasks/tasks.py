@@ -20,7 +20,7 @@ def add(x, y):
     return result
 
 @task()
-def add_usingR():
+def add_usingR(x,y):
     """
         Generic task testing batch submit to R
             Adds two real numbers together
@@ -32,7 +32,7 @@ def add_usingR():
     """
     task_id = str(add_usingR.request.id)
     docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
-    docker_cmd =" Rscript /script/add_usingR.R "
+    docker_cmd = " Rscript /script/add_usingR.R {0} {1} ".format(x,y)
     try:
         r_return = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     except:
