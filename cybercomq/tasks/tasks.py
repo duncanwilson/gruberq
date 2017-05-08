@@ -35,17 +35,10 @@ def add_usingR(x,y):
     docker_cmd = " Rscript /script/add_usingR.R {0} {1} ".format(x,y)
     try:
         result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+        return result
     except:
-        pass
-    add_result = []
-    # R returns a single row csv file with x,y,and x+y as columns
-    with open('/data/static/R_add_out.csv', 'r') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            add_result.append(row)
-    f.close()
-    #os.remove(basedir + 'R_add_out.csv')
-    return result
+        raise
+
     
     
 @task()
