@@ -31,7 +31,7 @@ def add_usingR():
         file: "R_add_out.log" is the R console log
     """
     docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
-    docker_cmd =" Rscript /script/add_usingR.R"
+    docker_cmd =" Rscript /script/add_usingR.R "
     try:
         r_return = docker_task(docker_name="rocker/r-base",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     except:
