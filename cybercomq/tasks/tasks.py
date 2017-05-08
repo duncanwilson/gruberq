@@ -43,7 +43,7 @@ def add_usingR(x,y):
         for row in reader:
             add_result.append(row)
     f.close()
-    os.remove('/opt/someapp/data/static/R_add_out.csv')
+    os.remove(basedir + 'R_add_out.csv')
     sum = add_result[2]
     result = "Congratulations! The sum of {0} + {1} = {2}".format(x,y,sum)
     return result
