@@ -30,7 +30,7 @@ def add_usingR(x,y):
         args: x,y are two real numbers
         file: "R_add_out.log" is the R console log
     """
-    task_user = str(add_usingR.request.user)
+    task_user = user[1]
     docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
     docker_cmd ="Rscript /script/add_usingR.R {0} {1}".format(x,y)
     try:
