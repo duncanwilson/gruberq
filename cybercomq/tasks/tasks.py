@@ -30,6 +30,7 @@ def add_usingR():
         args: x,y are two real numbers
         file: "R_add_out.log" is the R console log
     """
+    task_id = str(runRscript_file.request.id)
     docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
     docker_cmd =" Rscript /script/add_usingR.R "
     try:
