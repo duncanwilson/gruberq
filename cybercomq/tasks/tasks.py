@@ -30,7 +30,6 @@ def add_usingR(x,y):
         args: x,y are two real numbers
         file: "R_add_out.log" is the R console log
     """
-    task_user = user[1]
     docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
     docker_cmd ="Rscript /script/add_usingR.R {0} {1}".format(x,y)
     try:
@@ -46,7 +45,7 @@ def add_usingR(x,y):
     f.close()
     os.remove('/opt/someapp/data/static/R_add_out.csv')
     sum = add_result[2]
-    result = "Congratulations {0}! The sum of {1} + {2} = {3}".format(task_user,x,y,sum)
+    result = "Congratulations! The sum of {0} + {1} = {2}".format(x,y,sum)
     return result
     
     
