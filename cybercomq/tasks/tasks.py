@@ -35,7 +35,7 @@ def add_usingR(x,y):
     #docker_opts = ''	
     docker_cmd = ' /bin/sh -c exit; '
     try:
-        result = docker_task(docker_name="gruber_r",docker_opts=None,docker_command=docker_cmd,id=task_id)
+        result = docker_task(docker_name="python",docker_opts=None,docker_command=docker_cmd,id=task_id)
         return result
     except:
         raise
