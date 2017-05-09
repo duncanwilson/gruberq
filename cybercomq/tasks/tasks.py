@@ -32,10 +32,10 @@ def add_usingR(x,y):
     """
     task_id = str(add_usingR.request.id)
     sum = x + y
-    docker_opts = ' -v /opt/someapp/data/static:/script  '	
-    docker_cmd = " Rscript /script/add_usingR.R"
+    #docker_opts = ''	
+    docker_cmd = ' /bin/sh -c exit; '
     try:
-        result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+        result = docker_task(docker_name="gruber_r",docker_opts=None,docker_command=docker_cmd,id=task_id)
         return result
     except:
         raise
