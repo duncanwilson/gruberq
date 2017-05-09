@@ -31,8 +31,9 @@ def add_usingR(x,y):
         file: "R_add_out.log" is the R console log
     """
     task_id = str(add_usingR.request.id)
-    docker_opts = ' --rm -v /opt/someapp/data/static:/script:z -w /script '	
-    docker_cmd = " Rscript /script/add_usingR.R {0} {1} ".format(x,y)
+    sum = x + y
+    docker_opts = ' -v /opt/someapp/data/static:/script  '	
+    docker_cmd = " Rscript /script/add_usingR.R"
     try:
         result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
         return result
