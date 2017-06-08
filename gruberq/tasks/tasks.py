@@ -24,6 +24,8 @@ def add_usingR(x,y):
     task_id = str(add_usingR.request.id)
     sum = x + y
     docker_cmd = ' /bin/sh -c exit; '
+    #docker_opts = ''	
+    docker_cmd = " echo $PATH"
     try:
         result = docker_task(docker_name="python",docker_opts=None,docker_command=docker_cmd,id=task_id)
         return result
@@ -47,12 +49,9 @@ def runRscript_file(args):
     with open(resultDir + '/input/args.json', "w") as f:
         jsonx.dump(args,f)`
     #Run R Script
-    docker_opts = " --rm -v /opt/someapp/data/static:/script:z -w /script "
+    docker_opts = "-v /opt/someapp/data/static:/script -w /script"
     docker_cmd =" Rscript /script/simple.R "
-    try:
-        result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
-    except:
-        pass
+    result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     result_url ="http://{0}/someapp_tasks/{1}".format("cybercom-dev.tigr.cf",task_id)
     return result_url
 
