@@ -47,7 +47,7 @@ def runRscript_file(args):
     resultDir = setup_result_directory(task_id)
     #host_data_resultDir = "{0}/static/someapp_tasks/{1}".format(host_data_dir,task_id)
     with open(resultDir + '/input/args.json', "w") as f:
-        jsonx.dump(args,f)`
+        jsonx.dump(args,f)
     #Run R Script
     docker_opts = "-v /opt/someapp/data/static:/script -w /script"
     docker_cmd =" Rscript /script/simple.R "
