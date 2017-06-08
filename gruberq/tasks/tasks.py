@@ -21,18 +21,8 @@ def add(x, y):
 
 @task()
 def add_usingR(x,y):
-    """
-        Generic task testing batch submit to R
-            Adds two real numbers together
-            Calls R from the docker container, inputs the args, writes result to file
-            Return reads output file, returns sum
-            Tests running R, inputting command args and writing output
-        args: x,y are two real numbers
-        file: "R_add_out.log" is the R console log
-    """
     task_id = str(add_usingR.request.id)
     sum = x + y
-    #docker_opts = ''	
     docker_cmd = ' /bin/sh -c exit; '
     try:
         result = docker_task(docker_name="python",docker_opts=None,docker_command=docker_cmd,id=task_id)
@@ -55,7 +45,7 @@ def runRscript_file(args):
     resultDir = setup_result_directory(task_id)
     #host_data_resultDir = "{0}/static/someapp_tasks/{1}".format(host_data_dir,task_id)
     with open(resultDir + '/input/args.json', "w") as f:
-        jsonx.dump(args,f)
+        jsonx.dump(args,f)`
     #Run R Script
     docker_opts = " --rm -v /opt/someapp/data/static:/script:z -w /script "
     docker_cmd =" Rscript /script/simple.R "
